@@ -1,19 +1,29 @@
-const map = [[1,1,0,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1],
-             [1,1,1,1,1,1,1,1,1,1,1]]
+document.addEventListener("DOMContentLoaded", () => {
+    const gridElement = document.getElementById("gameGrid");
 
-const box = document.getElementById("box")
-for(let i = 0; i < map.length; i++) {
-    for(let j = 0; j < map[i].length; j++) {
-        const div = document.createElement("div")
-        if(map[i][j] == 1) {
-            div.style.display = "block"
-        }else {
-            div.style.visibility = "hidden"
-            // div.style.color = "red"
+    const ROWS = 11;
+    const COLS = 11;
+    const gridData = [];
+
+    // Generate Grid Data
+    for (let row = 0; row < ROWS; row++) {
+        gridData[row] = [];
+        for (let col = 0; col < COLS; col++) {
+            if (row % 2 === 1 && col % 2 === 1) {
+                gridData[row][col] = "solid"; // Solid wall
+            } else {
+                gridData[row][col] = Math.random() < 0.3 ? "soft" : "empty"; // 30% chance of breakable walls
+            }
         }
-        div.className = "style"
-        box.append(div)
     }
-}
+
+    // Create Grid Cells
+    for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell", gridData[row][col]);
+            gridElement.appendChild(cell);
+        }
+    }
+});
+ 
