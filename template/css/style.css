@@ -13,10 +13,10 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(11, 50px);
+    grid-template-columns: repeat(13, 50px);
     grid-template-rows: repeat(11, 50px);
     gap: 2px;
-    background-color: black;
+    background-color: #117c13;
     padding: 5px;
 }
 
@@ -31,15 +31,39 @@ body {
 }
 
 .empty {
-    background-color: #6beaff;
+    /* background-color: ; */
 }
 
 .solid {
-    /* background-color: #555; */
-    background-image: url(../img/solid.jpeg);
+    background-color: #0f640f;
+    background-image: url(../img/solid.png);
+    background-size: 72px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .soft {
-    /* background-color: #e5b567; */
+    background-color: #117c13;
     background-image: url(../img/soft.png);
+    background-size: 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.player {
+    background-image: url(../img/player.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50px;
+    background-color: #117c13;
+}
+.bomb {
+    background-image: url(/template/img/bomb.png);
+    background-size: 60px;
+    background-repeat: no-repeat;
+}
+.explosion {
+    background-image: url(/template/img/explo.png);
+    background-repeat: no-repeat;
+    background-size: 70px;
+    background-position: center;
 }
