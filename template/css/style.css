@@ -13,7 +13,7 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(13, 50px);
+    grid-template-columns: repeat(11, 50px);
     grid-template-rows: repeat(11, 50px);
     gap: 2px;
     background-color: #117c13;
@@ -35,17 +35,17 @@ body {
 }
 
 .solid {
-    background-color: #0f640f;
+    background-color: #117c13;
     background-image: url(../img/solid.png);
-    background-size: 72px;
+    background-size: 60px;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .soft {
-    background-color: #117c13;
-    background-image: url(../img/soft.png);
-    background-size: 60px;
+    background-color:#117c13;;
+    background-image: url(../img/soft.webp);
+    background-size: 100px;
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -54,7 +54,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50px;
-    background-color: #117c13;
+    background-color: #117c13;;
 }
 .bomb {
     background-image: url(/template/img/bomb.png);
@@ -67,3 +67,4 @@ body {
     background-size: 70px;
     background-position: center;
 }
+

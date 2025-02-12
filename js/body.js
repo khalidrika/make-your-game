@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const gridElement = document.getElementById("gameGrid");
 
-    const ROWS = 13;
-    const COLS = 13;
+    const ROWS = 11;
+    const COLS = 11 ;
     const gridData = [];
 
     // Generate Grid Data
@@ -85,34 +85,29 @@ document.addEventListener("keydown", (event) => {
 
     setTimeout(() => {
         explodeBomb(playerCell);
-    }, 2500);
+    }, 1000);
 });
 function explodeBomb(bombCell) {
     if (!bombCell) return;
 
-    // إزالة القنبلة
     bombCell.classList.remove("bomb");
 
-    // تحديد إحداثيات القنبلة
     let bombRow = parseInt(bombCell.dataset.row);
     let bombCol = parseInt(bombCell.dataset.col);
 
-    // تحديد نطاق الانفجار (4 خلايا حول القنبلة)
     let explosionRange = [
-        { row: bombRow, col: bombCol },     // مركز الانفجار (مكان القنبلة)
-        { row: bombRow - 1, col: bombCol }, // أعلى
-        { row: bombRow + 1, col: bombCol }, // أسفل
-        { row: bombRow, col: bombCol - 1 }, // يسار
-        { row: bombRow, col: bombCol + 1 }  // يمين
+        { row: bombRow, col: bombCol },
+        { row: bombRow - 1, col: bombCol }, 
+        { row: bombRow + 1, col: bombCol }, 
+        { row: bombRow, col: bombCol - 1 }, 
+        { row: bombRow, col: bombCol + 1 } 
     ];
 
-    // إضافة تأثير الانفجار
     explosionRange.forEach(({ row, col }) => {
         let targetCell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
         if (targetCell) {
             targetCell.classList.add("explosion");
 
-            // تدمير الجدران القابلة للكسر
             if (targetCell.classList.contains("soft")) {
                 targetCell.classList.remove("soft");
                 targetCell.classList.add("empty");
@@ -120,7 +115,6 @@ function explodeBomb(bombCell) {
         }
     });
 
-    // بعد 500 مللي ثانية، إزالة تأثير الانفجار
     setTimeout(() => {
         explosionRange.forEach(({ row, col }) => {
             let targetCell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
@@ -128,5 +122,5 @@ function explodeBomb(bombCell) {
                 targetCell.classList.remove("explosion");
             }
         });
-    }, 500);
+    }, 200 );
 }
