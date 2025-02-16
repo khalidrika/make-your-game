@@ -36,6 +36,19 @@ document.addEventListener("DOMContentLoaded", () => {
             gridElement.appendChild(cell);
         }
     }
+    let enemyrow, enemycol;
+    do {
+        enemyrow = Math.floor(Math.random() * ROWS);
+        enemycol = Math.floor(Math.random() * COLS);
+    }while (gridData[enemyrow][enemycol] !== "empty");
+    gridData[enemyrow][enemycol] = "enemy";
+
+    const enemycell = document.querySelector(`[data-row='${enemyrow}'][data-col='${enemycol}']`);
+
+    if (enemycell) {
+        enemycell.classList.add("enemy");
+    }
+
 });
 
 document.addEventListener("keydown", (event) => {
@@ -100,7 +113,7 @@ function explodeBomb(bombCell) {
         { row: bombRow - 1, col: bombCol }, 
         { row: bombRow + 1, col: bombCol }, 
         { row: bombRow, col: bombCol - 1 }, 
-        { row: bombRow, col: bombCol + 1 } 
+        { row: bombRow, col: bombCol + 1 }  
     ];
 
     explosionRange.forEach(({ row, col }) => {
@@ -108,8 +121,9 @@ function explodeBomb(bombCell) {
         if (targetCell) {
             targetCell.classList.add("explosion");
 
-            if (targetCell.classList.contains("soft")) {
+            if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
                 targetCell.classList.remove("soft");
+                targetCell.classList.remove("enemy");
                 targetCell.classList.add("empty");
             }
         }
@@ -124,4 +138,3 @@ function explodeBomb(bombCell) {
         });
     }, 200 );
 }
-    //

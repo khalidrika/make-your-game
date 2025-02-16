@@ -43,7 +43,7 @@ body {
 }
 
 .soft {
-    background-color:#117c13;;
+    /* background-color:#117c13;; */
     background-image: url(../img/soft.webp);
     background-size: 100px;
     background-repeat: no-repeat;
@@ -54,7 +54,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50px;
-    background-color: #117c13;;
+    /* background-color: #117c13;; */
 }
 .bomb {
     background-image: url(/template/img/bomb.png);
@@ -68,3 +68,9 @@ body {
     background-position: center;
 }
 
+.enemy {
+    background-image: url(../img/enemy.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40px;
+}
