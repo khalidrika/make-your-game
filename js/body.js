@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (row % 2 === 1 && col % 2 === 1) {
                 gridData[row][col] = "solid"; // Solid wall
             } else {
-                gridData[row][col] = Math.random() < 0.3 ? "soft" : "empty"; // 30% chance of breakable walls
+                gridData[row][col] = Math.random() < 0.1 ? "soft" : "empty"; // 30% chance of breakable walls
             }
         }
     }
@@ -49,8 +49,17 @@ document.addEventListener("DOMContentLoaded", () => {
         enemycell.classList.add("enemy");
     }
 
+    let portalrow, portalcol;
+    
+    do {
+        gatrow = Math.floor(Math.random() * ROWS);
+        gatcol = Math.floor(Math.random() * COLS);
+    } while (gridData[portalrow][portalcol] !== "soft");
+    
+    gridData[portalrow][portalcol] = "soft-portal";
 });
 
+// player
 document.addEventListener("keydown", (event) => {
     const palyercell = document.querySelector(".player");
     if (!palyercell) return;
@@ -86,6 +95,8 @@ document.addEventListener("keydown", (event) => {
     targetcell.dataset.row = newrow; 
     targetcell.dataset.col = newcol;
 });
+
+// bomb
 document.addEventListener("keydown", (event) => {
     if (event.code !== "Space") return;
 
@@ -100,6 +111,8 @@ document.addEventListener("keydown", (event) => {
         explodeBomb(playerCell);
     }, 1000);
 });
+
+
 function explodeBomb(bombCell) {
     if (!bombCell) return;
 
@@ -113,7 +126,7 @@ function explodeBomb(bombCell) {
         { row: bombRow - 1, col: bombCol }, 
         { row: bombRow + 1, col: bombCol }, 
         { row: bombRow, col: bombCol - 1 }, 
-        { row: bombRow, col: bombCol + 1 }  
+        { row: bombRow, col: bombCol + 1 }
     ];
 
     explosionRange.forEach(({ row, col }) => {
@@ -121,9 +134,13 @@ function explodeBomb(bombCell) {
         if (targetCell) {
             targetCell.classList.add("explosion");
 
-            if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
-                targetCell.classList.remove("soft");
-                targetCell.classList.remove("enemy");
+            if (targetCell.classList.contains("soft-portal")) {
+                targetCell.classList.remove("soft-portal", "soft");
+                targetCell.classList.add("portal");
+
+            }
+            else if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
+                targetCell.classList.remove("soft", "enemy");
                 targetCell.classList.add("empty");
             }
         }

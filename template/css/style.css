@@ -72,5 +72,12 @@ body {
     background-image: url(../img/enemy.png);
     background-repeat: no-repeat;
     background-position: center;
+    background-size: 30px;
+}
+.portal {
+    background-image: url(../img/gate.png);
+    background-repeat: no-repeat;
     background-size: 40px;
+    background-position: center;
+    background-color: #222;
 }
