@@ -1,3 +1,15 @@
+// const images = ["player.png", "enemy.png", "bomb.png", "explosion.png", "portal.png", "soft.webp", "solid.png"];
+// const loadedImages = {};
+
+// function preloadImages() {
+//     images.forEach(img => {
+//         const image = new Image();
+//         image.src = `../img/${img}`;
+//         loadedImages[img] = image;
+//     });
+// }
+// preloadImages();
+
 document.addEventListener("DOMContentLoaded", () => {
     const gridElement = document.getElementById("gameGrid");
 
@@ -129,15 +141,16 @@ function explodeBomb(bombCell) {
         { row: bombRow, col: bombCol + 1 }
     ];
 
-    explosionRange.forEach(({ row, col }) => {
+    explosionRange.forEach(({ row, col }) => { 
         let targetCell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
         if (targetCell) {
             targetCell.classList.add("explosion");
 
             if (targetCell.classList.contains("soft-portal")) {
                 targetCell.classList.remove("soft-portal", "soft");
-                targetCell.classList.add("portal");
-
+                setTimeout(() =>{
+                    targetCell.classList.add("portal");
+                }, 100);
             }
             else if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
                 targetCell.classList.remove("soft", "enemy");

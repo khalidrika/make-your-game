@@ -77,7 +77,7 @@ body {
 .portal {
     background-image: url(../img/gate.png);
     background-repeat: no-repeat;
-    background-size: 40px;
+    background-size: 50px;
     background-position: center;
     background-color: #222;
 }
