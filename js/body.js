@@ -1,16 +1,20 @@
-// const images = ["player.png", "enemy.png", "bomb.png", "explosion.png", "portal.png", "soft.webp", "solid.png"];
-// const loadedImages = {};
 
-// function preloadImages() {
-//     images.forEach(img => {
-//         const image = new Image();
-//         image.src = `../img/${img}`;
-//         loadedImages[img] = image;
-//     });
-// }
-// preloadImages();
+let cols , rows
 
 document.addEventListener("DOMContentLoaded", () => {
+    const images = ["player.png", "enemy.png", "bomb.png", "explosion.png", "portal.png", "soft.webp", "solid.png"];
+    const loadedImages = {};
+    
+    function preloadImages() {
+        images.forEach(img => {
+            const image = new Image();
+            image.src = `../img/${img}`;
+            loadedImages[img] = image;
+        });
+    }
+    preloadImages();
+    
+
     const gridElement = document.getElementById("gameGrid");
 
     const ROWS = 11;
@@ -58,17 +62,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const enemycell = document.querySelector(`[data-row='${enemyrow}'][data-col='${enemycol}']`);
 
     if (enemycell) {
-        enemycell.classList.add("enemy");
+        enemycell.classList.add("enemyy");
     }
 
     let portalrow, portalcol;
-    
     do {
-        gatrow = Math.floor(Math.random() * ROWS);
-        gatcol = Math.floor(Math.random() * COLS);
-    } while (gridData[portalrow][portalcol] !== "soft");
+        portalrow = Math.floor(Math.random() * ROWS);
+        portalcol = Math.floor(Math.random() * COLS);
+    }while (gridData[portalrow][portalcol] !== "soft");
+
+    gridData[portalrow][portalcol] = "portal-gate";
+
+    rows = portalrow 
+    cols = portalcol
+    const portalcell = document.querySelector(`[data-row='${portalrow}'][data-col='${portalcol}']`);
+    console.log(portalcell);
     
-    gridData[portalrow][portalcol] = "soft-portal";
 });
 
 // player
@@ -143,16 +152,16 @@ function explodeBomb(bombCell) {
 
     explosionRange.forEach(({ row, col }) => { 
         let targetCell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+        console.log(rows , cols);
+        
+        if (rows == row && col ==cols && targetCell) {
+            targetCell.classList.remove("soft-portal", "soft");
+            targetCell.classList.add("portal");
+            targetCell.classList.add("explosion");
+        }
         if (targetCell) {
             targetCell.classList.add("explosion");
-
-            if (targetCell.classList.contains("soft-portal")) {
-                targetCell.classList.remove("soft-portal", "soft");
-                setTimeout(() =>{
-                    targetCell.classList.add("portal");
-                }, 100);
-            }
-            else if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
+             if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
                 targetCell.classList.remove("soft", "enemy");
                 targetCell.classList.add("empty");
             }
