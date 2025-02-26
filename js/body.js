@@ -1,46 +1,30 @@
+import { Bomb } from "./bomb.js";
+import { Draw } from "./draw.js";
+import { MoveEnemy } from "./enemy.js";
+import { PlayerMove } from "./player.js";
 
-let cols , rows
+export let cols, rows
+const gridElement = document.getElementById("gameGrid");
 
-document.addEventListener("DOMContentLoaded", () => {
-    const images = ["player.png", "enemy.png", "bomb.png", "explosion.png", "portal.png", "soft.webp", "solid.png"];
-    const loadedImages = {};
-    
-    function preloadImages() {
-        images.forEach(img => {
-            const image = new Image();
-            image.src = `../img/${img}`;
-            loadedImages[img] = image;
-        });
-    }
-    preloadImages();
-    
+export let ROWS = 13;
+export let COLS = 13;
+export let gridData = [];
+export let enemyrow, enemycol; 
+export let portalrow, portalcol;
+export let palyerrow, palyercolom
 
-    const gridElement = document.getElementById("gameGrid");
+let score = 0;
+let timeLeft = 120;
 
-    const ROWS = 11;
-    const COLS = 11 ;
-    const gridData = [];
-
-    // Generate Grid Data
-    for (let row = 0; row < ROWS; row++) {
-        gridData[row] = [];
-        for (let col = 0; col < COLS; col++) {
-            if (row % 2 === 1 && col % 2 === 1) {
-                gridData[row][col] = "solid"; // Solid wall
-            } else {
-                gridData[row][col] = Math.random() < 0.1 ? "soft" : "empty"; // 30% chance of breakable walls
-            }
-        }
-    }
-
-    let palyerrow, palyercolom;
-    
-
-    do {
+ document.addEventListener("DOMContentLoaded", () => {
+     
+     Draw();
+     do {
         palyerrow = Math.floor(Math.random() * ROWS);
         palyercolom = Math.floor(Math.random() * COLS);
     } while (gridData[palyerrow][palyercolom] !== "empty");
-    gridData[palyerrow][palyercolom] = "player";
+
+     gridData[palyerrow][palyercolom] = "player";
 
     // Create Grid Cells
     for (let row = 0; row < ROWS; row++) {
@@ -52,128 +36,64 @@ document.addEventListener("DOMContentLoaded", () => {
             gridElement.appendChild(cell);
         }
     }
-    let enemyrow, enemycol;
+    //add div enemy
     do {
         enemyrow = Math.floor(Math.random() * ROWS);
         enemycol = Math.floor(Math.random() * COLS);
-    }while (gridData[enemyrow][enemycol] !== "empty");
+    } while (gridData[enemyrow][enemycol] !== "empty");
+
     gridData[enemyrow][enemycol] = "enemy";
 
     const enemycell = document.querySelector(`[data-row='${enemyrow}'][data-col='${enemycol}']`);
 
     if (enemycell) {
-        enemycell.classList.add("enemyy");
+        enemycell.classList.add("enemy");
     }
-
-    let portalrow, portalcol;
+    // add div  portal
     do {
         portalrow = Math.floor(Math.random() * ROWS);
         portalcol = Math.floor(Math.random() * COLS);
-    }while (gridData[portalrow][portalcol] !== "soft");
+    } while (gridData[portalrow][portalcol] !== "soft");
 
     gridData[portalrow][portalcol] = "portal-gate";
 
-    rows = portalrow 
+
+    rows = portalrow
     cols = portalcol
-    const portalcell = document.querySelector(`[data-row='${portalrow}'][data-col='${portalcol}']`);
-    console.log(portalcell);
-    
-});
 
-// player
-document.addEventListener("keydown", (event) => {
-    const palyercell = document.querySelector(".player");
-    if (!palyercell) return;
+    // const portalcell = document.querySelector(`[data-row='${portalrow}'][data-col='${portalcol}']`);
+    // move player
+    PlayerMove();
 
-    let palyerrow = parseInt(palyercell.dataset.row);
-    let palyercolom = parseInt(palyercell.dataset.col);
-
-    let newrow = palyerrow;
-    let newcol = palyercolom;
-
-    switch (event.key) {
-        case "ArrowUp":
-            newrow = Math.max(0,  palyerrow -1);
-            break
-        case "ArrowDown":
-            newrow = Math.min(10, palyerrow + 1);
-            break
-        case "ArrowLeft":
-            newcol = Math.max(0, palyercolom - 1);
-            break
-        case "ArrowRight":
-            newcol = Math.min(10, palyercolom + 1);
-            break
-            default:
-            return;  
+    // bomb
+    Bomb();
+    updateScoreAndTime();
+    function updateEnemeis() {
+        MoveEnemy();
+        requestAnimationFrame(updateEnemeis);
     }
-
-    const targetcell = document.querySelector(`[data-row='${newrow}'][data-col='${newcol}']`);
-    if (targetcell.classList.contains("solid") || targetcell.classList.contains("soft")) return;
-    
-    palyercell.classList.remove("player")
-    targetcell.classList.add("player");
-    targetcell.dataset.row = newrow; 
-    targetcell.dataset.col = newcol;
+        requestAnimationFrame(updateEnemeis);
 });
 
-// bomb
-document.addEventListener("keydown", (event) => {
-    if (event.code !== "Space") return;
+export function updateScoreAndTime() {
+    const scoreElement = document.createElement("div");
+    scoreElement.id = "score";
+    scoreElement.textContent = `Score: ${score}`;
+    document.body.appendChild(scoreElement);
 
-    const playerCell = document.querySelector(".player");
-    if (!playerCell) return;
+    const timerElement = document.createElement("div");
+    timerElement.id = "timer";
+    timerElement.textContent = `Time Left: ${timeLeft}`;
+    document.body.appendChild(timerElement);
 
-    if (playerCell.classList.contains("bomb")) return;
+    const timerInterval = setInterval(() =>{
+        timeLeft--;
+        timerElement.textContent = `Time Left: ${timeLeft}`;
 
-    playerCell.classList.add("bomb");
-
-    setTimeout(() => {
-        explodeBomb(playerCell);
-    }, 1000);
-});
-
-
-function explodeBomb(bombCell) {
-    if (!bombCell) return;
-
-    bombCell.classList.remove("bomb");
-
-    let bombRow = parseInt(bombCell.dataset.row);
-    let bombCol = parseInt(bombCell.dataset.col);
-
-    let explosionRange = [
-        { row: bombRow, col: bombCol },
-        { row: bombRow - 1, col: bombCol }, 
-        { row: bombRow + 1, col: bombCol }, 
-        { row: bombRow, col: bombCol - 1 }, 
-        { row: bombRow, col: bombCol + 1 }
-    ];
-
-    explosionRange.forEach(({ row, col }) => { 
-        let targetCell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
-        console.log(rows , cols);
-        
-        if (rows == row && col ==cols && targetCell) {
-            targetCell.classList.remove("soft-portal", "soft");
-            targetCell.classList.add("portal");
-            targetCell.classList.add("explosion");
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Time's up! game Over.");
+            window.location.reload();
         }
-        if (targetCell) {
-            targetCell.classList.add("explosion");
-             if (targetCell.classList.contains("soft") || targetCell.classList.contains("enemy")) {
-                targetCell.classList.remove("soft", "enemy");
-                targetCell.classList.add("empty");
-            }
-        }
-    });
-
-    setTimeout(() => {
-        explosionRange.forEach(({ row, col }) => {
-            let targetCell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
-            if (targetCell) {
-                targetCell.classList.remove("explosion");
-            }
-        });
-    }, 200 );
+    }, 1000)
 }

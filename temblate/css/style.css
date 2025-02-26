@@ -1,7 +1,7 @@
 body {
     text-align: center;
     font-family: Arial, sans-serif;
-    background-color: #24828f;
+    background-color: #174c53;
     color: white;
 }
 
@@ -13,8 +13,8 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(11, 50px);
-    grid-template-rows: repeat(11, 50px);
+    grid-template-columns: repeat(13, 50px);
+    grid-template-rows: repeat(13, 50px);
     gap: 2px;
     background-color: #117c13;
     padding: 5px;
@@ -30,48 +30,66 @@ body {
     font-weight: bold;
 }
 .solid {
-    background-color: #117c13;
-    background-image: url(../img/solid.png);
+    background-color: #000000;
+    /* background-image: url(../img/solid.png); */
     background-size: 60px;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .soft {
-    /* background-color:#117c13;; */
-    background-image: url(../img/soft.webp);
+
+    background-color:#ffee00;;
+    /* background-image: url(../img/soft.webp); */
     background-size: 100px;
     background-repeat: no-repeat;
     background-position: center;
 }
 .player {
-    background-image: url(../img/player.png);
+
+    /* background-image: url(../img/player.png); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: 50px;
-    /* background-color: #117c13;; */
+    background-color: #0b49f3;;
 }
 .bomb {
-    background-image: url(/template/img/bomb.png);
+    background-color: #ff0000;
+    /* background-image: url(/template/img/bomb.png); */
     background-size: 60px;
     background-repeat: no-repeat;
 }
 .explosion {
-    background-image: url(/template/img/explo.png);
+    background-color: #ff8800;
+    /* background-image: url(/template/img/explo.png); */
     background-repeat: no-repeat;
     background-size: 70px;
     background-position: center;
 }
 
 .enemy {
-    background-image: url(../img/enemy.png);
+    background-color: rgb(255, 0, 255);
+    /* background-image: url(../img/enemy.png); */
     background-repeat: no-repeat;
     background-position: center;
     background-size: 30px;
 }
 .portal {
-    background-image: url(../img/gate.png);
+    background-color: aliceblue;
+    /* background-image: url(../img/gate.png); */
     background-repeat: no-repeat;
     background-size: 60px;
     background-position: center;
 }
+
+/* // const images = ["player.png", "enemy.png", "bomb.png", "explosion.png", "portal.png", "soft.webp", "solid.png"];
+// const loadedImages = {};z
+// function preloadImages() {
+//     images.forEach(img => {
+//         const image = new Image();
+//         image.src = `../img/${img}`;
+//         loadedImages[img] = image;
+//     });
+// }
+// preloadImages();
+// Generate Grid Data */

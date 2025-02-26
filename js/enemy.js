@@ -1,4 +1,4 @@
-function MoveEnemy() {
+export function MoveEnemy() {
     let EnemyCell = document.querySelector(".enemy")
     if (!EnemyCell) return
     let Enemyrow = parseInt(EnemyCell.dataset.row);
@@ -23,9 +23,3 @@ function MoveEnemy() {
         newEnemycell.classList.add("enemy");
     }
 }
-
-function updateEnemeis() {
-    MoveEnemy();
-    requestAnimationFrame(updateEnemeis);
-}
-requestAnimationFrame(updateEnemeis);
